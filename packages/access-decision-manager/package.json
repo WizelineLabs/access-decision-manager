@@ -17,5 +17,5 @@
     "lint": "eslint . --max-warnings=0 --ext .js,.ts --ignore-path ../../.gitignore",
     "test": "jest"
   },
-  "version": "0.0.0"
+  "version": "0.1.0"
 }
