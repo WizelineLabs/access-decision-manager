@@ -23,6 +23,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "publish": "lerna run build && lerna publish"
+    "publish": "lerna run build && lerna publish",
+    "test": "lerna exec npx jest -- --coverage"
   }
 }
