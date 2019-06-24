@@ -1,5 +1,9 @@
 {
   "author": "Leo Urzua <leonardo.urzua@wizeline.com>",
+  "dependencies": {
+    "@wizeline/access-decision-manager": "^0.1.0",
+    "http-status-codes": "^1.3.2"
+  },
   "description": "An implementation of the Voter pattern for determining access rights for express",
   "files": [
     "lib"
@@ -17,9 +21,5 @@
     "lint": "eslint . --max-warnings=0 --ext .js,.ts --ignore-path ../../.gitignore",
     "test": "jest"
   },
-  "version": "0.1.0",
-  "dependencies": {
-    "@wizeline/access-decision-manager": "^0.1.0",
-    "http-status-codes": "^1.3.2"
-  }
+  "version": "0.1.0"
 }
