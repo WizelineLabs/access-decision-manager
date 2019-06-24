@@ -11,12 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * version of the packages ([9c8be30](https://github.com/wizeline/access-decision-manager/commit/9c8be30))
 
 
-
-
-
-# 0.1.0 (2019-06-20)
-
-
 ### Features
 
-* initial `access-decision-manager` work ([54ac8f3](https://github.com/wizeline/access-decision-manager/commit/54ac8f3))
+* add the `access-decision-manager-express` package ([235f9bc](https://github.com/wizeline/access-decision-manager/commit/235f9bc))
