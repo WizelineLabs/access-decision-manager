@@ -8,6 +8,7 @@
   "files": [
     "lib"
   ],
+  "homepage": "https://github.com/wizeline/access-decision-manager/tree/master/packages/access-decision-manager-express#readme",
   "keywords": [
     "ADM",
     "authorization",
@@ -16,6 +17,11 @@
   "license": "MIT",
   "main": "lib/index.js",
   "name": "@wizeline/access-decision-manager-express",
+  "repository": {
+    "directory": "packages/access-decision-manager-express",
+    "type": "git",
+    "url": "git+https://github.com/wizeline/access-decision-manager.git"
+  },
   "scripts": {
     "build": "rm -rf lib; tsc",
     "lint": "eslint . --max-warnings=0 --ext .js,.ts --ignore-path ../../.gitignore",
