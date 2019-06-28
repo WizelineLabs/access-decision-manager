@@ -24,6 +24,6 @@
   "private": true,
   "scripts": {
     "publish": "lerna run build && lerna publish",
-    "test": "lerna exec npx jest -- --coverage"
+    "test": "lerna run test:coverage"
   }
 }
