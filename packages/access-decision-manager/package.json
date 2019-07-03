@@ -21,7 +21,8 @@
   "scripts": {
     "build": "rm -rf dist; tsc",
     "lint": "eslint . --max-warnings=0 --ext .js,.ts --ignore-path ../../.gitignore",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "version": "0.3.1"
 }
