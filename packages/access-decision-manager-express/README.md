@@ -1,10 +1,10 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)    [![build](https://img.shields.io/travis/wizeline/access-decision-manager/master.svg)](https://travis-ci.org/wizeline/access-decision-manager)
 
 
- # Access-decision-manager-express.
+ # Access Decision Manager - Express.
 
 
- Determines whether or not an entity is entitled to perform a certain action,
+Determines whether or not an entity is entitled to perform a certain action,
 for example, request a certain URI or modify a certain object. It relies on
 [access-decision-manager](https://github.com/wizeline/access-decision-manager/tree/master/packages/access-decision-manager#readme), and to make a positive verdict, it is sufficient to have the approval
 of only one Voter. Voters are implemented by the client service.
@@ -48,22 +48,15 @@ const supportedAttributes = [
   'GET_PUBLIC'
 ];
 
-const publicVoter = (
-  _options: {}, // eslint-disable-line @typescript-eslint/no-unused-vars
-): Voter => {
-  const supports = (attribute): boolean => {
+const publicVoter = {
+  supports(attribute): boolean {
     return supportedAttributes.includes(attribute);
-  };
-
-  const voteOnAttribute = (_attribute, subject, user): boolean => {
+  },
+  voteOnAttribute(attribute, subject, user): boolean {
+    // Do the logic here to validate determine if has permissions.
     return true;
-  };
-
-  return {
-    supports,
-    voteOnAttribute,
-  };
-};
+  }
+}
 
 export default publicVoter;
 
@@ -77,26 +70,21 @@ const supportedAttributes = [
   "GET_PRIVATE"
 ];
 
-const publicVoter = (
-  _options: {}, // eslint-disable-line @typescript-eslint/no-unused-vars
-): Voter => {
-  const supports = (attribute): boolean => {
+const privateVoter = {
+  supports(attribute): boolean {
     return supportedAttributes.includes(attribute);
-  };
+  },
+  voteOnAttribute(attribute, subject, user): boolean {
+    // Do the logic here to validate determine if has permissions.
+    return (
+      user &&
+      user.roles &&
+      user.roles.includes('admin')
+    );
+  }
+}
 
-  const voteOnAttribute = (_attribute, subject, user): boolean => {
-    // do the logic here to validate determine if has permissions.. maybe
-    // return user.username === 'admin'
-    return false;
-  };
-
-  return {
-    supports,
-    voteOnAttribute,
-  };
-};
-
-export default publicVoter;
+export default privateVoter;
 
 ```
 
@@ -110,13 +98,10 @@ import express from 'express'
 import publicVoter from '../path/to/voters';
 import privateVoter from '../path/to/voters';
 
-const voters = (options): Voter[] => {
-  return [
-    publicVoter(options),
-    privateVoter(options),
-    /// ...
-  ];
-};
+const voters: Voter[] = [
+    publicVoter,
+    privateVoter
+];
 
 
 const app: express.Application = express();
