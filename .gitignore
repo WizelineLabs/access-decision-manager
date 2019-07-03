@@ -1,6 +1,5 @@
 lerna-debug.log
 node_modules
 npm-debug.log
-packages/*/coverage
 packages/*/lib
 packages/*/examples/*/lib

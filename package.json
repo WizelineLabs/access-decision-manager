@@ -23,8 +23,6 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap",
-    "publish": "lerna run build && lerna publish",
-    "test": "lerna run test:coverage"
+    "publish": "lerna run build && lerna publish"
   }
 }
