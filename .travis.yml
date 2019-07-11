@@ -3,6 +3,14 @@ language: node_js
 node_js:
   - 10
 
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+before_deploy:
+  - git checkout master
+  - git remote set-url origin https://${GH_TOKEN}@github.com/wizeline/lerna-leo
+  - npm whoami
+  - git config --global user.email $GITHUB_EMAIL
+  - git config --global user.name $GITHUB_USER
 jobs:
   include:
     # Define the release stage that runs semantic-release
