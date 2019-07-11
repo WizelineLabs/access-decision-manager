@@ -162,7 +162,7 @@ describe('src', () => {
 
           const syncErrorVoter: Voter = {
             supports: () => true,
-            voteOnAttribute: async () => {
+            voteOnAttribute: () => {
               throw new Error('Uhh oh');
             },
           };
@@ -176,6 +176,33 @@ describe('src', () => {
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
           expect(result).toBe(false);
+        });
+
+        it("returns true when at least one voter is true and another voter's `voteOnAttribute` method throws an error", async () => {
+          const mockUser = undefined;
+          const mockContext = undefined;
+
+          const syncErrorVoter: Voter = {
+            supports: () => true,
+            voteOnAttribute: () => {
+              throw new Error('Uhh oh');
+            },
+          };
+          const asyncTrueVoter: Voter = {
+            supports: () => true,
+            voteOnAttribute: () => Promise.resolve(true),
+          };
+
+          const mockVoters = [syncErrorVoter, asyncTrueVoter];
+
+          const adm = new AccessDecisionManager(
+            mockUser,
+            mockVoters,
+            mockContext,
+          );
+
+          const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
+          expect(result).toBe(true);
         });
       });
     });

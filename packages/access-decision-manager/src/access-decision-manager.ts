@@ -1,4 +1,4 @@
-import { Voter } from "./voter";
+import { Voter } from './voter';
 
 class AccessDecisionManager {
   private readonly context;
@@ -22,15 +22,23 @@ class AccessDecisionManager {
         return false;
       }
     });
-    try {
-      return (await Promise.all(
-        relevantVoters.map((voter): boolean | Promise<boolean> =>
-          voter.voteOnAttribute(attribute, subject, this.user, this.context)
-        )
-      )).some(Boolean);
-    } catch (error) {
-      return false;
-    }
+    return (await Promise.all(
+      relevantVoters.map((voter): boolean | Promise<boolean> => {
+        let ret;
+        try {
+          ret = voter.voteOnAttribute(
+            attribute,
+            subject,
+            this.user,
+            this.context,
+          );
+        } catch (err) {
+          ret = false;
+          console.error(err); // eslint-disable-line no-console
+        }
+        return ret;
+      }),
+    )).some(Boolean);
   }
 }
 
