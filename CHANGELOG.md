@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/wizeline/access-decision-manager/compare/v0.3.1...v0.3.2) (2019-07-12)
+
+
+### Bug Fixes
+
+* remote url ([ea215df](https://github.com/wizeline/access-decision-manager/commit/ea215df))
+* return false for a single voter if fails but continue with the rest ([1248ae2](https://github.com/wizeline/access-decision-manager/commit/1248ae2))
+* versions of the packages ([18d71f6](https://github.com/wizeline/access-decision-manager/commit/18d71f6))
+
+
+
+
+
 ## [0.3.1](https://github.com/wizeline/access-decision-manager/compare/v0.3.0...v0.3.1) (2019-06-26)
 
 
