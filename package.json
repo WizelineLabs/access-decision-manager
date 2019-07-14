@@ -23,6 +23,7 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "link": "lerna exec npm link",
     "install": "lerna bootstrap",
     "publish": "lerna run build && lerna publish --conventional-commits --yes  --message 'chore(release): Publish'",
     "test": "lerna run test:coverage"

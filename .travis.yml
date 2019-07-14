@@ -11,6 +11,8 @@ before_deploy:
   - npm whoami
   - git config --global user.email $GITHUB_EMAIL
   - git config --global user.name $GITHUB_USER
+before_script:
+  - npm run link
 jobs:
   include:
     # Define the release stage that runs semantic-release
