@@ -1,4 +1,4 @@
-import AccessDecisionManager from '@wizeline/access-decision-manager';
+import { AccessDecisionManager } from '@wizeline/access-decision-manager-express';
 import voterFactory from '../index';
 import ATTRIBUTES from '../../attributes';
 

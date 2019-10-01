@@ -1,4 +1,4 @@
-import { Voter } from '@wizeline/access-decision-manager';
+import { Voter } from '@wizeline/access-decision-manager-express';
 import publicVoter from './public.voter';
 import privateVoter from './private.voter';
 

@@ -11,11 +11,10 @@
   "author": "Leo Urzua <d.leonardo.urzua@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@types/express": "^4.17.0",
-    "@wizeline/access-decision-manager": "^0.3.1",
-    "@wizeline/access-decision-manager-express": "^0.3.1",
+    "@types/express": "^4.17.1",
+    "@wizeline/access-decision-manager-express": "^0.4.0",
     "express": "^4.17.1",
-    "ts-node-dev": "^1.0.0-pre.40",
-    "typescript": "^3.5.2"
+    "ts-node-dev": "^1.0.0-pre.43",
+    "typescript": "^3.6.3"
   }
 }

@@ -1,4 +1,4 @@
-import { Voter } from '@wizeline/access-decision-manager';
+import { Voter } from '@wizeline/access-decision-manager-express';
 import ATTRIBUTES from '../attributes';
 
 const supportedAttributes = [
