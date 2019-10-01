@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { NextFunction, Request, Response } from 'express';
-import AccessDecisionManager, { Voter } from '@wizeline/access-decision-manager';
+import AccessDecisionManager, { Voter } from '@wizeline/access-decision-manager/src';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ADMArgumentFactory = (req: Request) => any;
