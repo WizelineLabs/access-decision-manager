@@ -1,4 +1,4 @@
-import AccessDecisionManager, { Voter } from '@wizeline/access-decision-manager/src';
+import AccessDecisionManager, { Voter } from '@wizeline/access-decision-manager';
 import AccessDecisionManagerProvider from './access-decision-manager-provider';
 import isGrantedMiddleware from './is-granted-middleware';
 

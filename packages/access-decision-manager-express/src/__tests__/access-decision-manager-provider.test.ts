@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Request } from 'express';
-import AccessDecisionManager from '@wizeline/access-decision-manager/src';
+import AccessDecisionManager from '@wizeline/access-decision-manager';
 import AccessDecisionManagerProvider from '../access-decision-manager-provider';
 
 describe('src', () => {

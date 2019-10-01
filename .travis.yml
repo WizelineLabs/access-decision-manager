@@ -13,6 +13,9 @@ before_deploy:
   - git config --global user.name $GITHUB_USER
 before_script:
   - npm run link
+install:
+  - for d in packages/access-decision-manager-express/examples/* ; do (cd "$d" && npm i); done
+  - npm ci
 jobs:
   include:
     # Define the release stage that runs semantic-release
