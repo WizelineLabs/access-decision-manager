@@ -2,7 +2,6 @@ import { Voter } from '@wizeline/access-decision-manager-express';
 import ATTRIBUTES from '../attributes';
 
 const supportedAttributes = [
-  ATTRIBUTES.PUBLIC,
   ATTRIBUTES.GET_ONE_POST,
   ATTRIBUTES.GET_ALL_POST
 ];

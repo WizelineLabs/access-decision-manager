@@ -17,7 +17,7 @@ const user = {
 app.use(AccessDecisionManagerProvider((req) => user, voters({})));
 
 app.get('/',
-  isGrantedMiddleware(ATTRIBUTES.PUBLIC),
+  isGrantedMiddleware(ATTRIBUTES.GET_ALL_POST),
   (req, res) => {
     res.send('res send something');
   }
@@ -45,18 +45,12 @@ app.delete('posts/:id',
 );
 
 app.get('posts/:id',
-  isGrantedMiddleware(ATTRIBUTES.PUBLIC),
+  isGrantedMiddleware(ATTRIBUTES.GET_ONE_POST),
   (req, res) => {
     res.send('res send something');
   }
 );
 
-app.get('posts',
-  isGrantedMiddleware(ATTRIBUTES.PUBLIC),
-  (req, res) => {
-    res.send('res send something');
-  }
-);
 
 app.listen(3000, function () {
   console.log('app listening on port 3000!');
