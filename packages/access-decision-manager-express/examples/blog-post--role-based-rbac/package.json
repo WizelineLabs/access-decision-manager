@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "tsc": "tsc",
-    "dev": "ts-node-dev --respawn --transpileOnly ./src/app.ts",
+    "start": "ts-node-dev --respawn --transpileOnly ./src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Leo Urzua <d.leonardo.urzua@gmail.com>",
