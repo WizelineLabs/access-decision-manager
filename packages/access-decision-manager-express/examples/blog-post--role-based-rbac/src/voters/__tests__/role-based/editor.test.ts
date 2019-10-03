@@ -53,7 +53,7 @@ describe('server', () => {
               const voters = voterFactory(mockVoterOpcs);
               const adm = new AccessDecisionManager(mockUser, voters, mockContext);
 
-              expect(await adm.isGranted(ATTRIBUTES.DELETE_POST)).toBe(false);
+              expect(await adm.isGranted(ATTRIBUTES.DELETE_POST)).toBe(true);
             });
           });
         });
