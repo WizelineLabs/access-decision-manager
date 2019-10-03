@@ -15,10 +15,15 @@ const users = {
       role: 'editor'
     }
   },
+  regularUser: {
+    userId: 2,
+    attributes: {
+      role: 'regular'
+    }
+  }
 };
 
-// app.use(AccessDecisionManagerProvider((req) => user, voters({})));
-
+// eslint-disable-next-line import/prefer-default-export
 const posts = database([
   {
     id: 1,
@@ -31,6 +36,10 @@ const posts = database([
     authorId: 2,
   },
 ]);
+
+const getPost = (req) => {
+  return posts.getOne(req.params.id);
+};
 
 
 app.use(AccessDecisionManagerProvider(
@@ -64,7 +73,7 @@ app.post('/',
 );
 
 app.patch('/:id',
-  isGrantedMiddleware(ATTRIBUTES.EDIT_POST),
+  isGrantedMiddleware(ATTRIBUTES.EDIT_POST, getPost),
   express.json(),
   (req, res) => {
     try {
@@ -77,7 +86,7 @@ app.patch('/:id',
 );
 
 app.delete('/:id',
-  isGrantedMiddleware(ATTRIBUTES.DELETE_POST),
+  isGrantedMiddleware(ATTRIBUTES.DELETE_POST, getPost),
   (req, res) => {
     res.json(posts.delete(req.params.id));
   }

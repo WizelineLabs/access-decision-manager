@@ -2,12 +2,11 @@ import {Voter} from '@wizeline/access-decision-manager-express';
 import ATTRIBUTES from '../../attributes';
 
 const supportedAttributes = [
-  ATTRIBUTES.CREATE_POST,
   ATTRIBUTES.DELETE_POST,
   ATTRIBUTES.EDIT_POST,
 ];
 
-const editorRoleVoter = (
+const postOwnerVoter = (
   _options: {}, // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Voter => {
   const supports = (attribute): boolean => {
@@ -15,10 +14,8 @@ const editorRoleVoter = (
   };
 
   const voteOnAttribute = (_attribute, subject, user): boolean => {
-    if ((user && user.attributes && user.attributes.role)) {
-      return user.attributes.role === 'editor';
-    }
-    return false;
+    // here the subject of this voter is the post
+    return subject.authorId === user.userId;
   };
 
   return {
@@ -27,4 +24,4 @@ const editorRoleVoter = (
   };
 };
 
-export default editorRoleVoter;
+export default postOwnerVoter;
