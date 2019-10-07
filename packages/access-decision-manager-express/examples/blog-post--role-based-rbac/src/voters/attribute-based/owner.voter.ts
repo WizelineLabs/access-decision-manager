@@ -15,6 +15,9 @@ const postOwnerVoter = (
 
   const voteOnAttribute = (_attribute, subject, user): boolean => {
     // here the subject of this voter is the post
+    if(!subject || !subject.authorId || !user || !user.userId){
+      return false;
+    }
     return subject.authorId === user.userId;
   };
 

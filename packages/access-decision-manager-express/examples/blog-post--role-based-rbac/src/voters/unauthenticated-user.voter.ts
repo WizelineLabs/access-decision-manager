@@ -6,7 +6,7 @@ const supportedAttributes = [
   ATTRIBUTES.GET_ALL_POST
 ];
 
-const unAuthenticatedUserVoter = (
+const unauthenticatedUserVoter = (
   _options: {}, // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Voter => {
   const supports = (attribute): boolean => {
@@ -23,4 +23,4 @@ const unAuthenticatedUserVoter = (
   };
 };
 
-export default unAuthenticatedUserVoter;
+export default unauthenticatedUserVoter;

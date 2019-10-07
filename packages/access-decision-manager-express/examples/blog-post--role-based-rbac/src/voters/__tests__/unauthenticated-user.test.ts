@@ -17,7 +17,7 @@ describe('server', () => {
             expect(await adm.isGranted(ATTRIBUTES.GET_ONE_POST)).toBe(true);
           });
 
-          it('can get all the single posts', async () => {
+          it('can get all the posts', async () => {
             const mockUser = undefined;
             const mockVoterOpcs = {};
             const mockContext = {};
