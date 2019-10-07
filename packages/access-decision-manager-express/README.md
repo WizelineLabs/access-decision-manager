@@ -41,8 +41,8 @@ export interface Voter {
 
  For example, the following voter checks attributes related to a public resources and private ones:
 
- ```typescript
-import { Voter } from '@wizeline/access-decision-manager';
+ ``` typescript
+import { Voter } from '@wizeline/access-decision-manager-express';
 
 const supportedAttributes = [
   'GET_PUBLIC'
@@ -64,7 +64,7 @@ export default publicVoter;
  
  
  ```typescript
-import { Voter } from '@wizeline/access-decision-manager';
+import { Voter } from '@wizeline/access-decision-manager-express';
 
 const supportedAttributes = [
   "GET_PRIVATE"
@@ -91,9 +91,8 @@ export default privateVoter;
 Then let's add our voters to our express application, here we are assuming that we have the data of our user in req.user
 
 
-```typescript
-import AccessDecisionManagerProvider from '@wizeline/access-decision-manager-express';
-import { Voter } from '@wizeline/access-decision-manager';
+``` typescript
+import AccessDecisionManagerProvider, { Voter } from '@wizeline/access-decision-manager-express';
 import express from 'express'
 import publicVoter from '../path/to/voters';
 import privateVoter from '../path/to/voters';
@@ -114,7 +113,7 @@ app.use(AccessDecisionManagerProvider((req) => req.user, voters({})));
 
 Now add the middleware in the routers with their attributes
 
-```typescript
+``` typescript
 
 import { isGrantedMiddleware } from '@wizeline/access-decision-manager-express';
 
