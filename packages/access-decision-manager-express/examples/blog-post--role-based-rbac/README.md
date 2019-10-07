@@ -292,5 +292,11 @@ app.get('/:id',
 );
 ```
 
+## Testing voters
+
+You can see how to write tests under the folder [tests](src/voters/__tests__). 
+
+We have a set of functional tests that checks the authorization of requests passing by all the voters (all levels of security) on this way we ensure that we don't have any leak when we add more voters
+
 
 
