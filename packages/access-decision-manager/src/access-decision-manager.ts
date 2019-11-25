@@ -1,5 +1,5 @@
 import { Voter } from './voter';
-import { Strategy } from './types';
+import { Strategy } from './strategy';
 import affirmative from './strategy/affirmative';
 
 class AccessDecisionManager {

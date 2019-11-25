@@ -1,4 +1,4 @@
-import { Voter } from '../voter';
+import { Voter } from './voter';
 
 // eslint-disable-next-line import/prefer-default-export
 export type Strategy = (

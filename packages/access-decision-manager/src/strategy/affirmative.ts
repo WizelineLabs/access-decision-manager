@@ -1,4 +1,4 @@
-import { Strategy } from '../types';
+import { Strategy } from '../strategy';
 
 const affirmative: Strategy = async (
   voters,
@@ -8,23 +8,16 @@ const affirmative: Strategy = async (
   context,
 ) => {
   const results = await Promise.all(
-    voters.map((voter): boolean | Promise<boolean> =>
-      {
-        let ret;
-        try {
-          ret = voter.voteOnAttribute(
-            attribute,
-            subject,
-            user,
-            context,
-          );
-        } catch (err) {
-          ret = false;
-          console.error(err); // eslint-disable-line no-console
-        }
-        return ret;
+    voters.map((voter): boolean | Promise<boolean> => {
+      let ret;
+      try {
+        ret = voter.voteOnAttribute(attribute, subject, user, context);
+      } catch (err) {
+        ret = false;
+        console.error(err); // eslint-disable-line no-console
       }
-    ),
+      return ret;
+    }),
   );
 
   return results.some(Boolean);
