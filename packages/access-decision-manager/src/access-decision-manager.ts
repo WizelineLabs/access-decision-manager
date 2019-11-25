@@ -28,17 +28,13 @@ class AccessDecisionManager {
       }
     });
 
-    try {
-      return await this.strategy(
-        relevantVoters,
-        attribute,
-        subject,
-        this.user,
-        this.context,
-      );
-    } catch (error) {
-      return false;
-    }
+    return this.strategy(
+      relevantVoters,
+      attribute,
+      subject,
+      this.user,
+      this.context,
+    );
   }
 }
 

@@ -9,7 +9,21 @@ const affirmative: Strategy = async (
 ) => {
   const results = await Promise.all(
     voters.map((voter): boolean | Promise<boolean> =>
-      voter.voteOnAttribute(attribute, subject, user, context),
+      {
+        let ret;
+        try {
+          ret = voter.voteOnAttribute(
+            attribute,
+            subject,
+            user,
+            context,
+          );
+        } catch (err) {
+          ret = false;
+          console.error(err); // eslint-disable-line no-console
+        }
+        return ret;
+      }
     ),
   );
 
