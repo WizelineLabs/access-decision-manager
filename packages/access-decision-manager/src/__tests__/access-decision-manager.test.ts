@@ -90,7 +90,7 @@ describe('src', () => {
           expect(syncUnsupportedVoter.voteOnAttribute).toHaveBeenCalledTimes(0);
         });
 
-        it('returns true if at least one voter returns true', async () => {
+        it('uses the affirmative strategy and returns true if at least one voter returns true', async () => {
           const mockUser = undefined;
           const mockContext = undefined;
 
@@ -113,7 +113,7 @@ describe('src', () => {
           expect(result).toBe(true);
         });
 
-        it('returns false if no voters returns true', async () => {
+        it('uses the affirmative strategy and returns false if no voters returns true', async () => {
           const mockUser = undefined;
           const mockContext = undefined;
 
@@ -133,7 +133,7 @@ describe('src', () => {
           expect(result).toBe(false);
         });
 
-        it("skips a if a voter when it's `supports` method throws an error", async () => {
+        it("uses the affirmative strategy and skips a if a voter when it's `supports` method throws an error", async () => {
           const mockUser = undefined;
           const mockContext = undefined;
 
@@ -156,7 +156,7 @@ describe('src', () => {
           expect(syncErrorVoter.voteOnAttribute).toHaveBeenCalledTimes(0);
         });
 
-        it("defaults to false if a voter's `voteOnAttribute` method throws an error", async () => {
+        it("uses the affirmative strategy and defaults to false if a voter's `voteOnAttribute` method throws an error", async () => {
           const mockUser = undefined;
           const mockContext = undefined;
 
@@ -178,7 +178,7 @@ describe('src', () => {
           expect(result).toBe(false);
         });
 
-        it("returns true when at least one voter is true and another voter's `voteOnAttribute` method throws an error", async () => {
+        it("uses the affirmative strategy and returns true when at least one voter is true and another voter's `voteOnAttribute` method throws an error", async () => {
           const mockUser = undefined;
           const mockContext = undefined;
 
