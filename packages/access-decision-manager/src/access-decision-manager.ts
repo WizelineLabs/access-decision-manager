@@ -1,4 +1,6 @@
 import { Voter } from './voter';
+import { Strategy } from './types';
+import affirmative from './strategy/affirmative';
 
 class AccessDecisionManager {
   private readonly context;
@@ -7,10 +9,13 @@ class AccessDecisionManager {
 
   private readonly voters: Voter[];
 
-  public constructor(user, voters: Voter[], context) {
+  private readonly strategy: Strategy;
+
+  public constructor(user, voters: Voter[], context, strategy = affirmative) {
     this.context = context;
     this.user = user;
     this.voters = voters;
+    this.strategy = strategy;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,23 +27,18 @@ class AccessDecisionManager {
         return false;
       }
     });
-    return (await Promise.all(
-      relevantVoters.map((voter): boolean | Promise<boolean> => {
-        let ret;
-        try {
-          ret = voter.voteOnAttribute(
-            attribute,
-            subject,
-            this.user,
-            this.context,
-          );
-        } catch (err) {
-          ret = false;
-          console.error(err); // eslint-disable-line no-console
-        }
-        return ret;
-      }),
-    )).some(Boolean);
+
+    try {
+      return await this.strategy(
+        relevantVoters,
+        attribute,
+        subject,
+        this.user,
+        this.context,
+      );
+    } catch (error) {
+      return false;
+    }
   }
 }
 
