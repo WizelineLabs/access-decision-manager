@@ -9,13 +9,13 @@ class AccessDecisionManager {
 
   private readonly voters: Voter[];
 
-  private readonly strategy: Strategy;
+  private readonly options?: {strategy?: Strategy}
 
-  public constructor(user, voters: Voter[], context, strategy = affirmative) {
+  public constructor(user, voters: Voter[], context, options={strategy: affirmative}) {
     this.context = context;
     this.user = user;
     this.voters = voters;
-    this.strategy = strategy;
+    this.options = options;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +28,7 @@ class AccessDecisionManager {
       }
     });
 
-    return this.strategy(
+    return this.options.strategy(
       relevantVoters,
       attribute,
       subject,
