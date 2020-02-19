@@ -16,7 +16,16 @@ describe('src', () => {
               setImmediate(() => resolve(true));
             }),
         };
-        const mockVoters = [asyncTrueVoter];
+
+        const asyncFalseVoter: Voter = {
+          supports: () => true,
+          voteOnAttribute: () =>
+            new Promise((resolve) => {
+              setImmediate(() => resolve(false));
+            }),
+        };
+
+        const mockVoters = [asyncFalseVoter, asyncTrueVoter];
         const mockOptions = {
           strategy: affirmative
         };
@@ -123,8 +132,15 @@ describe('src', () => {
           supports: () => true,
           voteOnAttribute: () => Promise.resolve(true),
         };
+        const asyncFalseVoter: Voter = {
+          supports: () => true,
+          voteOnAttribute: () =>
+            new Promise((resolve) => {
+              setImmediate(() => resolve(false));
+            }),
+        };
 
-        const mockVoters = [syncErrorVoter, asyncTrueVoter];
+        const mockVoters = [syncErrorVoter, asyncFalseVoter, asyncTrueVoter];
         const mockOptions = {
           strategy: affirmative
         };

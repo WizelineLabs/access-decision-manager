@@ -101,7 +101,16 @@ describe('src', () => {
                 setImmediate(() => resolve(true));
               }),
           };
-          const mockVoters = [asyncTrueVoter];
+
+          const asyncFalseVoter: Voter = {
+            supports: () => false,
+            voteOnAttribute: () =>
+              new Promise((resolve) => {
+                setImmediate(() => resolve(true));
+              }),
+          };
+
+          const mockVoters = [asyncFalseVoter, asyncTrueVoter];
 
           const adm = new AccessDecisionManager(
             mockUser,
@@ -193,7 +202,16 @@ describe('src', () => {
             voteOnAttribute: () => Promise.resolve(true),
           };
 
-          const mockVoters = [syncErrorVoter, asyncTrueVoter];
+
+          const asyncFalseVoter: Voter = {
+            supports: () => false,
+            voteOnAttribute: () =>
+              new Promise((resolve) => {
+                setImmediate(() => resolve(true));
+              }),
+          };
+
+          const mockVoters = [asyncFalseVoter, asyncTrueVoter, syncErrorVoter];
 
           const adm = new AccessDecisionManager(
             mockUser,
