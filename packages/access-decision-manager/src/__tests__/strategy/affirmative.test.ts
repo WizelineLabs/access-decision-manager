@@ -17,12 +17,15 @@ describe('src', () => {
             }),
         };
         const mockVoters = [asyncTrueVoter];
+        const mockOptions = {
+          strategy: affirmative
+        };
 
         const adm = new AccessDecisionManager(
           mockUser,
           mockVoters,
           mockContext,
-          affirmative
+          mockOptions
         );
 
         const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -38,12 +41,15 @@ describe('src', () => {
           voteOnAttribute: () => false,
         };
         const mockVoters = [syncFalseVoter];
+        const mockOptions = {
+          strategy: affirmative
+        };
 
         const adm = new AccessDecisionManager(
           mockUser,
           mockVoters,
           mockContext,
-          affirmative
+          mockOptions
         );
 
         const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -61,12 +67,15 @@ describe('src', () => {
           voteOnAttribute: jest.fn().mockReturnValue(true),
         };
         const mockVoters = [syncErrorVoter];
+        const mockOptions = {
+          strategy: affirmative
+        };
 
         const adm = new AccessDecisionManager(
           mockUser,
           mockVoters,
           mockContext,
-          affirmative
+          mockOptions
         );
 
         const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -85,12 +94,15 @@ describe('src', () => {
           },
         };
         const mockVoters = [syncErrorVoter];
+        const mockOptions = {
+          strategy: affirmative
+        };
 
         const adm = new AccessDecisionManager(
           mockUser,
           mockVoters,
           mockContext,
-          affirmative
+          mockOptions
         );
 
         const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -113,12 +125,15 @@ describe('src', () => {
         };
 
         const mockVoters = [syncErrorVoter, asyncTrueVoter];
+        const mockOptions = {
+          strategy: affirmative
+        };
 
         const adm = new AccessDecisionManager(
           mockUser,
           mockVoters,
           mockContext,
-          affirmative
+          mockOptions
         );
 
         const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');

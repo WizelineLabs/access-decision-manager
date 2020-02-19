@@ -26,12 +26,15 @@ describe('src', () => {
           };
 
           const mockVoters = [asyncTrueVoter, asyncFalseVoter];
+          const mockOptions = {
+            strategy: unanimous
+          };
 
           const adm = new AccessDecisionManager(
             mockUser,
             mockVoters,
             mockContext,
-            unanimous
+            mockOptions
           );
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -47,12 +50,15 @@ describe('src', () => {
             voteOnAttribute: () => false,
           };
           const mockVoters = [syncFalseVoter];
+          const mockOptions = {
+            strategy: unanimous
+          };
 
           const adm = new AccessDecisionManager(
             mockUser,
             mockVoters,
             mockContext,
-            unanimous
+            mockOptions
           );
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -70,12 +76,15 @@ describe('src', () => {
             voteOnAttribute: jest.fn().mockReturnValue(true),
           };
           const mockVoters = [syncErrorVoter];
+          const mockOptions = {
+            strategy: unanimous
+          };
 
           const adm = new AccessDecisionManager(
             mockUser,
             mockVoters,
             mockContext,
-            unanimous
+            mockOptions
           );
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -94,12 +103,15 @@ describe('src', () => {
             },
           };
           const mockVoters = [syncErrorVoter];
+          const mockOptions = {
+            strategy: unanimous
+          };
 
           const adm = new AccessDecisionManager(
             mockUser,
             mockVoters,
             mockContext,
-            unanimous
+            mockOptions
           );
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
@@ -122,12 +134,15 @@ describe('src', () => {
           };
 
           const mockVoters = [syncErrorVoter, asyncTrueVoter];
+          const mockOptions = {
+            strategy: unanimous
+          };
 
           const adm = new AccessDecisionManager(
             mockUser,
             mockVoters,
             mockContext,
-            unanimous
+            mockOptions
           );
 
           const result = await adm.isGranted('SOME-ATTRIBUTE', 'SOME-SUBJECT');
