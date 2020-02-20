@@ -26,5 +26,8 @@
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage --passWithNoTests"
   },
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "dependencies": {
+    "@wizeline/access-decision-manager": "^0.4.3"
+  }
 }
