@@ -1,0 +1,30 @@
+{
+  "author": "Leo Urzua <leonardo.urzua@wizeline.com>",
+  "bugs": {
+    "url": "https://github.com/wizeline/access-decision-manager/issues"
+  },
+  "description": "An implementation of the Voter pattern for determining access rights for react",
+  "homepage": "https://github.com/wizeline/access-decision-manager/tree/master/packages/access-decision-manager-react#readme",
+  "keywords": [
+    "ADM",
+    "authorization",
+    "voters",
+    "policies",
+    "security"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "access-decision-manager-react",
+  "repository": {
+    "directory": "packages/access-decision-manager-react",
+    "type": "git",
+    "url": "git+https://github.com/wizeline/access-decision-manager.git"
+  },
+  "scripts": {
+    "build": "rm -rf lib; tsc",
+    "lint": "eslint . --max-warnings=0 --ext .js,.ts --ignore-path ../../.gitignore",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests"
+  },
+  "version": "0.0.0"
+}
