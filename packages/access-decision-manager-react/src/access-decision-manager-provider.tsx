@@ -10,8 +10,7 @@ export const accessDecisionManagerContext = createContext<AccessDecisionManagerC
 });
 
 // eslint-disable-next-line no-shadow
-const AccessDecisionManagerProvider = ({children, user, createContext, voters,}
-: {
+const AccessDecisionManagerProvider = ({children, user, createContext, voters,}: {
   children: any,
   createContext?: any
   user: any,
@@ -30,4 +29,3 @@ const AccessDecisionManagerProvider = ({children, user, createContext, voters,}
 };
 
 export default AccessDecisionManagerProvider;
-
