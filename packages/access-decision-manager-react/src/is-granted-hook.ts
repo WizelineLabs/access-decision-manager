@@ -1,32 +1,32 @@
 import {useContext, useEffect, useReducer} from 'react';
-import { accessDecisionManagerContext } from './access-decision-manager-provider';
+import {accessDecisionManagerContext} from './access-decision-manager-provider';
 
-const initialState = {
-    error: undefined,
-    isGranted: undefined,
-    loading: true,
+export const initialState = {
+  error: undefined,
+  isGranted: undefined,
+  loading: true,
 };
 
-function reducer(state: any, action: any) {
-    switch (action.type) {
-        case 'error':
-            return {
-                error: action.error,
-                isGranted: undefined,
-                loading: false,
-            };
-        case 'request':
-            return initialState;
-        case 'response':
-            return {
-                error: undefined,
-                isGranted: action.isGranted,
-                loading: false,
-            };
+export const reducer = (state: any, action: any) => {
+  switch (action.type) {
+    case 'error':
+      return {
+        error: action.error,
+        isGranted: undefined,
+        loading: false,
+      };
+    case 'request':
+      return initialState;
+    case 'response':
+      return {
+        error: undefined,
+        isGranted: action.isGranted,
+        loading: false,
+      };
 
-        default:
-            throw new Error();
-    }
+    default:
+      throw new Error('invalid action type');
+  }
 }
 
 const useIsGranted = (attribute:any, subject?: any) => {
