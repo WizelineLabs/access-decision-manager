@@ -29,8 +29,8 @@ function reducer(state: any, action: any) {
     }
 }
 
-const useIsGranted = (attribute:any, subject: any) => {
-    const  accessDecisionManager = useContext(accessDecisionManagerContext);
+const useIsGranted = (attribute:any, subject?: any) => {
+    const  context = useContext(accessDecisionManagerContext);
     const [state, dispatch] = useReducer(reducer, initialState);
     useEffect
     ( () => {
@@ -38,7 +38,7 @@ const useIsGranted = (attribute:any, subject: any) => {
                 dispatch({ type: 'request'});
 
                 try{
-                    const isGranted = await accessDecisionManager.isGranted(attribute, subject);
+                    const isGranted = await context.accessDecisionManager.isGranted(attribute, subject);
                     dispatch({type: 'response', isGranted})
                 } catch (error) {
                     dispatch({type: 'error', error})
@@ -46,10 +46,10 @@ const useIsGranted = (attribute:any, subject: any) => {
             };
             isGrantedDispatcher();
         },
-        [accessDecisionManager, attribute, subject]
+        [context.accessDecisionManager, attribute, subject]
     );
 
-    return state
+    return state;
 };
 
 export default useIsGranted;
