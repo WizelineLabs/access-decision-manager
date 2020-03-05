@@ -15,6 +15,7 @@ before_script:
   - npm run link
 install:
   - for d in packages/access-decision-manager-express/examples/* ; do (cd "$d" && npm i); done
+  - for d in packages/access-decision-manager-react/examples/* ; do (cd "$d" && npm i); done
   - npm ci
 jobs:
   include:
