@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/wizeline/access-decision-manager/compare/v0.4.3...v0.5.0) (2020-03-06)
+
+
+### Features
+
+* add adm strategies ([6b463f3](https://github.com/wizeline/access-decision-manager/commit/6b463f3))
+* add unanimous strategy ([804a5ff](https://github.com/wizeline/access-decision-manager/commit/804a5ff))
+
+
+### Performance Improvements
+
+* add support for errors in the voters ([54f02af](https://github.com/wizeline/access-decision-manager/commit/54f02af))
+
+
+
+
+
 ## [0.4.3](https://github.com/wizeline/access-decision-manager/compare/v0.4.2...v0.4.3) (2020-01-13)
 
 **Note:** Version bump only for package @wizeline/access-decision-manager
