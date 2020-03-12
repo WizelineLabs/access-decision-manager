@@ -28,8 +28,8 @@
   },
   "version": "0.0.0",
   "dependencies": {
-    "@wizeline/access-decision-manager": "^0.4.3",
-    "react": "^16.12.0"
+    "@wizeline/access-decision-manager": "^0.5.0",
+    "react": "^16.13.0"
   },
   "devDependencies": {
     "@testing-library/react-hooks": "^3.2.1",
