@@ -14,7 +14,7 @@
   ],
   "license": "MIT",
   "main": "lib/index.js",
-  "name": "access-decision-manager-react",
+  "name": "@wizeline/access-decision-manager-react",
   "repository": {
     "directory": "packages/access-decision-manager-react",
     "type": "git",
