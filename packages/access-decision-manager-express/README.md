@@ -4,10 +4,27 @@
  # Access Decision Manager - Express.
 
 
-Determines whether or not an entity is entitled to perform a certain action,
-for example, request a certain URI or modify a certain object. It relies on
-[access-decision-manager](https://github.com/wizeline/access-decision-manager/tree/master/packages/access-decision-manager#readme), and to make a positive verdict, it is sufficient to have the approval
-of only one Voter. Voters are implemented by the client service.
+Determines whether or not an entity is entitled to perform a specific action,
+for example, request a particular URI or modify a specific object. It relies on
+Voters, all voters are called each time you use `isGranted()` method.
+
+The Access Decision Manager takes the responses from all voters
+and makes the final verdict (to allow or deny access to the resource)
+according to the strategy defined in the application.
+
+It recognizes several strategies:
+
+`affirmative` (default)
+
+grant access as soon as there is one voter granting access;
+
+`unanimous`
+
+only grant access if none of the voters has denied access;
+
+`[custom]`
+
+(any strategy can be defined and passed as an argument)
 
 
 
@@ -37,35 +54,28 @@ export interface Voter {
   ) => boolean | Promise<boolean>;
 }
 ```
+Here's a detailed description of the two abstract methods:
+
+`supports(attribute, subject, context)`
+When `isGranted()` is called, the first argument is passed here as `attribute` (e.g. `ROLE_USER`, `edit`) and the second argument (if any) is passed as `subject` (e.g. `null`, a `Post` object).
+Your job is to determine if your voter should vote on the attribute/subject combination. if you return true, `voteOnAttribute()` will be called. Otherwise, your voter is done:
+some other voters should process this. The third argument, `context` is to help you to determine access rights, the access decision manager takes this argument when is created
+
+`voteOnAttribue(attribute, subject, user, context)`
+If you return `true` from `supports`, then this method is called. Your job is simple: return `true` to allow access and `false` to deny access. The `user` and `context` properties (if any) can be useful.
 
 
- For example, the following voter checks attributes related to a public resources and private ones:
+For example, the following voter checks attributes related to an admin:
+
+Suppose you have a `Private` object, and you need to decide whether or not the current user can edit the resource.
+The only users that can get that resource are the ones who are admins; also, you know that the users who are admins have a `roles` property, which includes `admin`.
+So, it would be best if you created a new voter that validates what actions `supports` in this case `GET_PRIVATE`.
+And that the `voteOnAttribute` validates that the user is an admin.
+
+This voter can be named `admin.voter.ts` since it is the one which determines access for admin users.
+
 
  ``` typescript
-import { Voter } from '@wizeline/access-decision-manager-express';
-
-const supportedAttributes = [
-  'GET_PUBLIC'
-];
-
-const publicVoter = {
-  supports(attribute): boolean {
-    return supportedAttributes.includes(attribute);
-  },
-  voteOnAttribute(attribute, subject, user): boolean {
-    // Do the logic here to validate determine if has permissions.
-    return true;
-  }
-}
-
-export default publicVoter;
-
- ```
- 
- 
- ```typescript
-import { Voter } from '@wizeline/access-decision-manager-express';
-
 const supportedAttributes = [
   "GET_PRIVATE"
 ];
@@ -87,6 +97,33 @@ const privateVoter = {
 export default privateVoter;
 
 ```
+
+Then we can have a public resource that can be view for everyone,
+in this case we need specified the attributes and the logic to validate,
+since we know this is public we are returning a true.
+
+
+ ``` typescript
+const supportedAttributes = [
+  'GET_PUBLIC'
+];
+
+const publicVoter = {
+  supports(attribute): boolean {
+    return supportedAttributes.includes(attribute);
+  },
+  voteOnAttribute(attribute, subject, user): boolean {
+    // Do the logic here to validate determine if has permissions.
+    return true;
+  }
+}
+
+export default publicVoter;
+
+ ```
+
+
+
 
 Then let's add our voters to our express application, here we are assuming that we have the data of our user in req.user
 
