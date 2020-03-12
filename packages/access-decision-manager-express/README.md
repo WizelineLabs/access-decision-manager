@@ -75,12 +75,12 @@ And that the `voteOnAttribute` validates that the user is an admin.
 This voter can be named `admin.voter.ts` since it is the one which determines access for admin users.
 
 
- ``` typescript
+ ```typescript
 const supportedAttributes = [
   "GET_PRIVATE"
 ];
 
-const privateVoter = {
+const adminVoter = {
   supports(attribute): boolean {
     return supportedAttributes.includes(attribute);
   },
@@ -94,7 +94,7 @@ const privateVoter = {
   }
 }
 
-export default privateVoter;
+export default adminVoter;
 
 ```
 
@@ -103,7 +103,7 @@ in this case we need specified the attributes and the logic to validate,
 since we know this is public we are returning a true.
 
 
- ``` typescript
+ ```typescript
 const supportedAttributes = [
   'GET_PUBLIC'
 ];
@@ -128,7 +128,7 @@ export default publicVoter;
 Then let's add our voters to our express application, here we are assuming that we have the data of our user in req.user
 
 
-``` typescript
+```typescript
 import AccessDecisionManagerProvider, { Voter } from '@wizeline/access-decision-manager-express';
 import express from 'express'
 import publicVoter from '../path/to/voters';
@@ -150,7 +150,7 @@ app.use(AccessDecisionManagerProvider((req) => req.user, voters({})));
 
 Now add the middleware in the routers with their attributes
 
-``` typescript
+```typescript
 
 import { isGrantedMiddleware } from '@wizeline/access-decision-manager-express';
 
