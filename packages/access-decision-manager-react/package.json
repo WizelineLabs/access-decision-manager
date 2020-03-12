@@ -3,7 +3,15 @@
   "bugs": {
     "url": "https://github.com/wizeline/access-decision-manager/issues"
   },
+  "dependencies": {
+    "@wizeline/access-decision-manager": "^0.5.0",
+    "react": "^16.13.0"
+  },
   "description": "An implementation of the Voter pattern for determining access rights for react",
+  "devDependencies": {
+    "@testing-library/react-hooks": "^3.2.1",
+    "react-test-renderer": "^16.13.0"
+  },
   "homepage": "https://github.com/wizeline/access-decision-manager/tree/master/packages/access-decision-manager-react#readme",
   "keywords": [
     "ADM",
@@ -26,13 +34,5 @@
     "test": "jest --passWithNoTests",
     "test:coverage": "jest --coverage --passWithNoTests"
   },
-  "version": "0.0.0",
-  "dependencies": {
-    "@wizeline/access-decision-manager": "^0.5.0",
-    "react": "^16.13.0"
-  },
-  "devDependencies": {
-    "@testing-library/react-hooks": "^3.2.1",
-    "react-test-renderer": "^16.13.0"
-  }
+  "version": "0.0.0"
 }
