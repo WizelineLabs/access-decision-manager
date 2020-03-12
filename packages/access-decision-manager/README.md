@@ -1,6 +1,11 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)    [![build](https://img.shields.io/travis/wizeline/access-decision-manager/master.svg)](https://travis-ci.org/wizeline/access-decision-manager)
 
 
+NOTE:
+
+This package is primarily intended to be used by one of the following
+ (list of express / react / vue bindings).
+
 # Access Decision Manager.
 
 
@@ -87,8 +92,6 @@ And that the `voteOnAttribute` validates that the user is an admin.
 This voter can be named `admin.voter.ts` since it is the one which determines access for admin users.
 
 ```typescript
-import { Voter } from '@wizeline/access-decision-manager';
-
 const supportedAttributes = [
   "GET_PRIVATE"
 ];
