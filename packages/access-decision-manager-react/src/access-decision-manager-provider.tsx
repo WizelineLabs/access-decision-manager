@@ -1,31 +1,57 @@
-import React, {createContext} from 'react';
-import AccessDecisionManager, {Voter} from '@wizeline/access-decision-manager';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactElement,
+  ReactComponentElement,
+  ReactNode,
+} from 'react';
+import AccessDecisionManager, {
+  Voter,
+} from '@wizeline/access-decision-manager';
 
-interface AccessDecisionManagerContextType {
-  accessDecisionManager: AccessDecisionManager;
+export const AccessDecisionManagerContext = createContext<
+  AccessDecisionManager
+>(null);
+
+interface IAccessDecisionManagerProviderProps {
+  children: any;
+  user: any;
+  voters: Voter[];
+  createContext?: any;
 }
 
-export const accessDecisionManagerContext = createContext<AccessDecisionManagerContextType>({
-  accessDecisionManager: new AccessDecisionManager({}, [], null)
-});
+const AccessDecisionManagerProvider = ({
+  children,
+  user,
+  voters,
+  createContext: createContext,
+}: IAccessDecisionManagerProviderProps) => {
+  const [accessDecisionManager, setAccessDecisionManager] = useState<
+    AccessDecisionManager
+  >(
+    new AccessDecisionManager(
+      user,
+      voters,
+      typeof createContext === 'function' ? createContext() : null,
+    ),
+  );
 
-// eslint-disable-next-line no-shadow
-const AccessDecisionManagerProvider = ({children, user, createContext, voters,}: {
-  children: any,
-  createContext?: any
-  user: any,
-  voters: Voter[],
-}) => {
-  const context =
-    typeof createContext === 'function'
-  ? createContext() : null;
+  useEffect(() => {
+    setAccessDecisionManager(
+      new AccessDecisionManager(
+        user,
+        voters,
+        typeof createContext === 'function' ? createContext() : null,
+      ),
+    );
+  }, [user, voters, createContext]);
 
-  const accessDecisionManager = new AccessDecisionManager(user, voters, context);
-  const value = {
-    accessDecisionManager
-  };
-
-  return <accessDecisionManagerContext.Provider value={value}>{children}</accessDecisionManagerContext.Provider>
+  return (
+    <AccessDecisionManagerContext.Provider value={accessDecisionManager}>
+      {children}
+    </AccessDecisionManagerContext.Provider>
+  );
 };
 
 export default AccessDecisionManagerProvider;
