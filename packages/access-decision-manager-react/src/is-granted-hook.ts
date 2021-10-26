@@ -4,37 +4,58 @@ import { AccessDecisionManagerContext } from './access-decision-manager-provider
 export const errorMessage =
   "'useIsGranted' hook must be rendered within the 'AccessDecisionManagerProvider' provider";
 
-export const initialState = {
-  error: null,
-  isGranted: null,
-  loading: true,
+export type IsGrantedState = {
+  error: undefined | Error;
+  isGranted: undefined | boolean;
+  status: 'idle' | 'error' | 'pending' | 'resolved';
 };
 
-export const reducer = (state: any, action: any) => {
+export interface IsGrantedAction {
+  type: 'request' | 'response' | 'error';
+  isGranted?: boolean;
+  error?: Error;
+}
+
+export const initialState: IsGrantedState = {
+  error: undefined,
+  isGranted: undefined,
+  status: 'idle',
+};
+
+export const reducer = (
+  state: IsGrantedState,
+  action: IsGrantedAction,
+): IsGrantedState => {
   switch (action.type) {
     case 'error':
       return {
+        ...state,
+        status: 'error',
         error: action.error,
-        isGranted: null,
-        loading: false,
       };
     case 'request':
-      return initialState;
+      return {
+        status: 'pending',
+        error: undefined,
+        isGranted: undefined,
+      };
     case 'response':
       return {
-        error: null,
+        ...state,
+        status: 'resolved',
         isGranted: action.isGranted,
-        loading: false,
       };
 
     default:
-      throw new Error('invalid action type');
+      throw new Error(`Unhandled action type: ${action.type}`);
   }
 };
 
 const useIsGranted = (attribute: any, subject?: any) => {
   const accessDecisionManager = useContext(AccessDecisionManagerContext);
-  if (!accessDecisionManager) throw Error(errorMessage);
+  if (!accessDecisionManager) {
+    throw Error(errorMessage);
+  }
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     const isGrantedDispatcher = async () => {

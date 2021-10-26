@@ -6,6 +6,8 @@ import AccessDecisionManager from '@wizeline/access-decision-manager';
 import useIsGranted, {
   errorMessage,
   initialState,
+  IsGrantedAction,
+  IsGrantedState,
   reducer,
 } from '../is-granted-hook';
 import AccessDecisionManagerProvider from '../access-decision-manager-provider';
@@ -20,7 +22,7 @@ describe('src', () => {
           mocked(AccessDecisionManager).mockClear();
         });
 
-        it('a request that is granted returns `{isGranted: true, loading: false}`', async () => {
+        it("a request that is granted returns `{isGranted: true, status: 'resolved'}`", async () => {
           const mockIsGrantedFn = jest.fn();
           AccessDecisionManager.prototype.isGranted = mockIsGrantedFn;
           mockIsGrantedFn.mockReturnValue(Promise.resolve(true));
@@ -36,21 +38,21 @@ describe('src', () => {
           );
 
           expect(result.current).toEqual({
-            error: null,
-            isGranted: null,
-            loading: true,
+            error: undefined,
+            isGranted: undefined,
+            status: 'pending',
           });
 
           await waitForNextUpdate();
 
           expect(result.current).toEqual({
-            error: null,
+            error: undefined,
             isGranted: true,
-            loading: false,
+            status: 'resolved',
           });
         });
 
-        it('a request that is not granted returns `{isGranted: false, loading: false}`', async () => {
+        it("a request that is not granted returns `{isGranted: false, status: 'resolved'}`", async () => {
           const mockIsGrantedFn = jest.fn();
           AccessDecisionManager.prototype.isGranted = mockIsGrantedFn;
           mockIsGrantedFn.mockReturnValue(Promise.resolve(false));
@@ -66,17 +68,17 @@ describe('src', () => {
           );
 
           expect(result.current).toEqual({
-            error: null,
-            isGranted: null,
-            loading: true,
+            error: undefined,
+            isGranted: undefined,
+            status: 'pending',
           });
 
           await waitForNextUpdate();
 
           expect(result.current).toEqual({
-            error: null,
+            error: undefined,
             isGranted: false,
-            loading: false,
+            status: 'resolved',
           });
         });
 
@@ -97,17 +99,17 @@ describe('src', () => {
           );
 
           expect(result.current).toEqual({
-            error: null,
-            isGranted: null,
-            loading: true,
+            error: undefined,
+            isGranted: undefined,
+            status: 'pending',
           });
 
           await waitForNextUpdate();
 
           expect(result.current).toEqual({
             error,
-            isGranted: null,
-            loading: false,
+            isGranted: undefined,
+            status: 'error',
           });
         });
 
@@ -118,31 +120,44 @@ describe('src', () => {
       });
 
       describe('reducer', () => {
-        it('returns the initial state for `request` type', () => {
-          const requestAction = { type: 'request' };
-          const requestedState = reducer(initialState, requestAction);
-          expect(requestedState).toEqual(initialState);
+        it('returns pending state for `request` type', () => {
+          const requestAction: IsGrantedAction = { type: 'request' };
+          const requestedState: IsGrantedState = reducer(
+            initialState,
+            requestAction,
+          );
+          expect(requestedState).toEqual({
+            error: undefined,
+            status: 'pending',
+            isGranted: undefined,
+          });
         });
 
         it('returns error state for `error` type', () => {
           const error = new Error('Uh ohh');
-          const errorAction = { type: 'error', error };
-          const errorState = reducer(initialState, errorAction);
+          const errorAction: IsGrantedAction = { type: 'error', error };
+          const errorState: IsGrantedState = reducer(initialState, errorAction);
           expect(errorState).toEqual({
             error,
-            isGranted: null,
-            loading: false,
+            isGranted: undefined,
+            status: 'error',
           });
         });
 
-        it('returns response state for `response` type', () => {
+        it('returns resolved state for `response` type', () => {
           const isGranted = true;
-          const responseAction = { type: 'response', isGranted };
-          const responseState = reducer(initialState, responseAction);
-          expect(responseState).toEqual({
-            error: null,
+          const responseAction: IsGrantedAction = {
+            type: 'response',
             isGranted,
-            loading: false,
+          };
+          const responseState: IsGrantedState = reducer(
+            initialState,
+            responseAction,
+          );
+          expect(responseState).toEqual({
+            error: undefined,
+            isGranted,
+            status: 'resolved',
           });
         });
       });

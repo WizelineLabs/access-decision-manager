@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useEffect,
-  ReactElement,
-  ReactComponentElement,
-  ReactNode,
-} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import AccessDecisionManager, {
   Voter,
 } from '@wizeline/access-decision-manager';
@@ -14,7 +7,7 @@ export const AccessDecisionManagerContext = createContext<
   AccessDecisionManager
 >(null);
 
-interface IAccessDecisionManagerProviderProps {
+interface AccessDecisionManagerProviderProps {
   children: any;
   user: any;
   voters: Voter[];
@@ -26,7 +19,7 @@ const AccessDecisionManagerProvider = ({
   user,
   voters,
   createContext: createContext,
-}: IAccessDecisionManagerProviderProps) => {
+}: AccessDecisionManagerProviderProps) => {
   const [accessDecisionManager, setAccessDecisionManager] = useState<
     AccessDecisionManager
   >(
