@@ -1,9 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
-import AccessDecisionManager from '@wizeline/access-decision-manager';
+import AccessDecisionManager, {
+  Voter,
+} from '@wizeline/access-decision-manager';
 import AccessDecisionManagerProvider, {
   AccessDecisionManagerContext,
 } from '../access-decision-manager-provider';
 import testRenderer, { act } from 'react-test-renderer';
+import affirmative from '@wizeline/access-decision-manager/lib/strategy/affirmative';
+import { renderHook } from '@testing-library/react-hooks';
+import useIsGranted from '../is-granted-hook';
 
 const MockConsumer = () => {
   const context = useContext(AccessDecisionManagerContext);
@@ -13,7 +18,39 @@ const MockConsumer = () => {
     </div>
   );
 };
-const mockVoters = [];
+
+const positiveVoter = {
+  supports(attribure): boolean {
+    return true;
+  },
+
+  voteOnAttribute(attribure, subject, user): boolean {
+    return true;
+  },
+};
+
+const negativeVoter = {
+  supports(attribure): boolean {
+    return true;
+  },
+
+  voteOnAttribute(attribure, subject, user): boolean {
+    return false;
+  },
+};
+
+const moreThanTreeVotersStrategy = (
+  voters: Voter[],
+  attribute,
+): Promise<boolean> => {
+  if (voters.length < 3) {
+    return Promise.resolve(false);
+  } else {
+    return affirmative(voters, attribute);
+  }
+};
+
+const mockVoters = [positiveVoter, negativeVoter];
 const mockUser = {
   id: 1,
 };
@@ -46,7 +83,7 @@ describe('src', () => {
           <AccessDecisionManagerProvider
             user={mockUser}
             voters={mockVoters}
-            createContext={mockContextFactory}
+            contextFactory={mockContextFactory}
           >
             <MockConsumer />
           </AccessDecisionManagerProvider>,
@@ -83,20 +120,23 @@ describe('src', () => {
 
         const initialADM = new AccessDecisionManager(
           mockUser,
-          mockVoters,
+          [mockVoters[0]],
           null,
         );
 
         const updatedADM = new AccessDecisionManager(
           { id: 2 },
-          [...mockVoters, { id: 3 }],
+          mockVoters,
           null,
         );
 
         let tree;
         act(() => {
           tree = testRenderer.create(
-            <AccessDecisionManagerProvider user={mockUser} voters={mockVoters}>
+            <AccessDecisionManagerProvider
+              user={mockUser}
+              voters={[mockVoters[0]]}
+            >
               <MockConsumerRenderCount />
             </AccessDecisionManagerProvider>,
           );
@@ -107,10 +147,7 @@ describe('src', () => {
 
         act(() => {
           tree.update(
-            <AccessDecisionManagerProvider
-              user={{ id: 2 }}
-              voters={[...mockVoters, { id: 3 }]}
-            >
+            <AccessDecisionManagerProvider user={{ id: 2 }} voters={mockVoters}>
               <MockConsumerRenderCount />
             </AccessDecisionManagerProvider>,
           );
@@ -122,6 +159,92 @@ describe('src', () => {
         expect(
           tree.root.findByProps({ id: 'context-value' }).props.children,
         ).toBe(JSON.stringify(updatedADM));
+      });
+
+      it('sets default strategy to `affirmative`', async () => {
+        var wrapper = ({ children }: { children?: React.ReactNode }) => (
+          <AccessDecisionManagerProvider user={{}} voters={mockVoters}>
+            {children}
+          </AccessDecisionManagerProvider>
+        );
+        const { result, waitForNextUpdate, rerender } = renderHook(
+          () => useIsGranted('SOME'),
+          { wrapper },
+        );
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: undefined,
+          status: 'pending',
+        });
+
+        await waitForNextUpdate();
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: true,
+          status: 'resolved',
+        });
+      });
+
+      it('can set strategy providing a strategy type in options', async () => {
+        var wrapper = ({ children }: { children?: React.ReactNode }) => (
+          <AccessDecisionManagerProvider
+            user={{}}
+            voters={mockVoters}
+            options={{ strategy: 'unanimous' }}
+          >
+            {children}
+          </AccessDecisionManagerProvider>
+        );
+        const { result, waitForNextUpdate } = renderHook(
+          () => useIsGranted('SOME'),
+          { wrapper },
+        );
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: undefined,
+          status: 'pending',
+        });
+
+        await waitForNextUpdate();
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: false,
+          status: 'resolved',
+        });
+      });
+
+      it('allows to provide a custom strategy', async () => {
+        var wrapper = ({ children }: { children?: React.ReactNode }) => (
+          <AccessDecisionManagerProvider
+            user={{}}
+            voters={mockVoters}
+            options={{ strategy: moreThanTreeVotersStrategy }}
+          >
+            {children}
+          </AccessDecisionManagerProvider>
+        );
+        const { result, waitForNextUpdate } = renderHook(
+          () => useIsGranted('SOME'),
+          { wrapper },
+        );
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: undefined,
+          status: 'pending',
+        });
+
+        await waitForNextUpdate();
+
+        expect(result.current).toEqual({
+          error: undefined,
+          isGranted: false,
+          status: 'resolved',
+        });
       });
     });
   });
